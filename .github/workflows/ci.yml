@@ -1,0 +1,91 @@
+name: Python 3.11.8 32-bit Builder
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.11.8]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            zlib1g-dev:i386 \
+            libncurses5-dev:i386 \
+            libgdbm-dev:i386 \
+            libnss3-dev:i386 \
+            libssl-dev:i386 \
+            libreadline-dev:i386 \
+            libffi-dev:i386 \
+            wget \
+            curl \
+            libbz2-dev:i386 \
+            libsqlite3-dev:i386 \
+            liblzma-dev:i386 \
+            gcc-multilib \
+            g++-multilib \
+            libexpat1-dev:i386 \
+            libuuid1:i386 \
+            libmpdec-dev:i386
+
+      - name: Set up cache for Python source
+        uses: actions/cache@v3
+        id: build-cache
+        with:
+          path: /home/runner/.millennium/ext/data/cache
+          key: ${{ runner.os }}-python-linux-3.11.8-build
+          restore-keys: ${{ runner.os }}-python-linux-3.11.8-build-
+
+      - name: Download Python 3.11.8 source
+        if: steps.build-cache.outputs.cache-hit != true
+        run: |
+          wget https://www.python.org/ftp/python/3.11.8/Python-3.11.8.tgz
+          tar -xf Python-3.11.8.tgz
+
+      - name: Configure and build Python 3.11.8 (32-bit)
+        if: steps.build-cache.outputs.cache-hit != true
+        run: |
+          mkdir -p $HOME/build
+          cd Python-3.11.8
+          sudo CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$HOME/build --enable-optimizations
+          sudo make -j$(nproc)
+
+      - name: Verify Python Installation
+        run: |
+          $HOME/build/bin/python3.11 --version
+
+      - name: Setup installation
+        run: |
+            sudo mkdir -p $HOME/build/lib/tmp
+            cd $HOME/build/lib/tmp
+            sudo ar -x ../libpython3.11.a
+            sudo gcc -m32 -shared -o ../libpython-3.11.8.so *.o
+
+            cd ..
+            sudo rm -rf $HOME/build/lib/tmp
+            ls
+
+            sudo rm -rf $HOME/build/lib/python3.11/test/
+            sudo rm -rf $HOME/build/share
+            sudo rm -rf $HOME/build/include
+            sudo rm -rf $HOME/build/lib/python3.11/__pycache__/
+            sudo rm -rf $HOME/build/lib/python3.11/config-3.11-x86_64-linux-gnu/
+            sudo rm $HOME/build/lib/libpython3.11.a
+
+            $HOME/build/bin/python3.11 --version
+
+      - name: Upload Python 3.11.8 (32-bit) artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-3.11.8-32-bit
+          path: $HOME/build
