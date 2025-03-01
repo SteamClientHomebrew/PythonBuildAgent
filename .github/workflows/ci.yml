@@ -78,7 +78,7 @@ jobs:
           sudo rm $HOME/.millennium/ext/data/cache/lib/libpython3.11.a
   
           sudo mkdir -p $HOME/.millennium/lib
-          sudo mv $HOME/.millennium/ext/data/cache/lib/libpython-3.11.8.so $HOME/.millennium/lib/libpython-3.11.8.so
+          sudo cp $HOME/.millennium/ext/data/cache/lib/libpython-3.11.8.so $HOME/.millennium/lib/libpython-3.11.8.so
   
           sudo strip $HOME/.millennium/ext/data/cache/bin/python3.11
           sudo strip $HOME/.millennium/lib/libpython-3.11.8.so
