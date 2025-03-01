@@ -102,7 +102,7 @@ jobs:
           sudo rm -rd $HOME/.millennium/ext
 
           cd $HOME/
-          tar -czf python-3.11.8-32-bit.tar.gz $HOME/.millennium/
+          tar -czf python-3.11.8-32-bit.tar.gz -C "$HOME/.millennium" .
 
       - name: Upload Python 3.11.8 (32-bit) artifact
         uses: actions/upload-artifact@v4
