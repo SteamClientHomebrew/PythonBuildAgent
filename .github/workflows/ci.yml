@@ -90,7 +90,7 @@ jobs:
 
           sudo mv $HOME/.millennium/ext/data/cache/bin/python3.11 $HOME/.millennium/ext/data/cache/bin/python3.11.8-i686-bin
 
-          sudo mv $HOME/.millennium/ext/data/cache $HOME/.millennium
+          sudo mv $HOME/.millennium/ext/data/cache/* $HOME/.millennium/
           sudo rm -rd $HOME/.millennium/ext
 
       - name: Upload Python 3.11.8 (32-bit) artifact
