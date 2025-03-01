@@ -61,6 +61,12 @@ jobs:
 
           ls -R $HOME/build
 
+      - name: Upload Python 3.11.8 (32-bit) artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-3.11.8-32-bit-build
+          path: $HOME/build
+
       - name: Verify Python Installation
         run: |
           $HOME/build/bin/python3.11 --version
