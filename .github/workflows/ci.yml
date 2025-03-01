@@ -82,9 +82,20 @@ jobs:
           sudo strip $HOME/.millennium/ext/data/cache/bin/python3.11
           sudo strip $HOME/.millennium/libpython-3.11.8.so
 
+          sudo rm $HOME/.millennium/ext/data/cache/bin/python3.11-config
+          sudo rm $HOME/.millennium/ext/data/cache/bin/idle3.11
+          sudo rm $HOME/.millennium/ext/data/cache/bin/pydoc3.11
+          sudo rm $HOME/.millennium/ext/data/cache/bin/pip3.11
+          sudo rm $HOME/.millennium/ext/data/cache/bin/2to3-3.11
+
+          sudo mv $HOME/.millennium/ext/data/cache/bin/python3.11 $HOME/.millennium/ext/data/cache/bin/python3.11.8-i686-bin
+
+          sudo mv $HOME/.millennium/ext/data/cache $HOME/.millennium/python-3.11.8-i686
+          sudo rm -rd $HOME/.millennium/ext
+
           $HOME/.millennium/ext/data/cache/bin/python3.11 --version
           mkdir -p /home/runner/env/ext/data
-          sudo cp -r $HOME/.millennium/ext/data/cache /home/runner/env/ext/data
+          sudo cp -r $HOME/.millennium/ext/data/cache $HOME/.millennium
 
       - name: Upload Python 3.11.8 (32-bit) artifact
         uses: actions/upload-artifact@v4
