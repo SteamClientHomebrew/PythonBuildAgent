@@ -77,10 +77,10 @@ jobs:
 
           sudo rm $HOME/.millennium/ext/data/cache/lib/libpython3.11.a
   
-          sudo mv $HOME/.millennium/ext/data/cache/lib/libpython-3.11.8.so $HOME/.millennium/libpython-3.11.8.so
+          sudo mv $HOME/.millennium/ext/data/cache/lib/libpython-3.11.8.so $HOME/.millennium/lib/libpython-3.11.8.so
   
           sudo strip $HOME/.millennium/ext/data/cache/bin/python3.11
-          sudo strip $HOME/.millennium/libpython-3.11.8.so
+          sudo strip $HOME/.millennium/lib/libpython-3.11.8.so
 
           sudo rm $HOME/.millennium/ext/data/cache/bin/python3.11-config
           sudo rm $HOME/.millennium/ext/data/cache/bin/idle3.11
