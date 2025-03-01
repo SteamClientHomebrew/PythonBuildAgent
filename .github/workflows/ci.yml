@@ -52,48 +52,45 @@ jobs:
           tar -xf Python-3.11.8.tgz
 
       - name: Configure and build Python 3.11.8 (32-bit)
-        if: steps.build-cache.outputs.cache-hit != true
+        if: steps.build-cache.outputs.cache-hit != 'true'
         run: |
-          mkdir -p $HOME/build
+          mkdir -p $HOME/.millennium/ext/data/cache
           cd Python-3.11.8
-          sudo CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$HOME/build --enable-optimizations
+          sudo CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$HOME/.millennium/ext/data/cache --enable-optimizations
           sudo make -j$(nproc)
-
-          ls -R $HOME/build
-
-      - name: Upload Python 3.11.8 (32-bit) artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-3.11.8-32-bit-build
-          include-hidden-files: true
-          path: /home/runner/work/pybuilder/pybuilder/Python-3.11.8
-
-      - name: Verify Python Installation
-        run: |
-          $HOME/build/bin/python3.11 --version
-
+          sudo make altinstall
+  
       - name: Setup installation
+        if: steps.build-cache.outputs.cache-hit != 'true'
         run: |
-            sudo mkdir -p $HOME/build/lib/tmp
-            cd $HOME/build/lib/tmp
-            sudo ar -x ../libpython3.11.a
-            sudo gcc -m32 -shared -o ../libpython-3.11.8.so *.o
-
-            cd ..
-            sudo rm -rf $HOME/build/lib/tmp
-            ls
-
-            sudo rm -rf $HOME/build/lib/python3.11/test/
-            sudo rm -rf $HOME/build/share
-            sudo rm -rf $HOME/build/include
-            sudo rm -rf $HOME/build/lib/python3.11/__pycache__/
-            sudo rm -rf $HOME/build/lib/python3.11/config-3.11-x86_64-linux-gnu/
-            sudo rm $HOME/build/lib/libpython3.11.a
-
-            $HOME/build/bin/python3.11 --version
+          sudo mkdir -p $HOME/.millennium/ext/data/cache/lib/tmp
+          cd $HOME/.millennium/ext/data/cache/lib/tmp
+          sudo ar -x ../libpython3.11.a
+          sudo gcc -m32 -shared -o ../libpython-3.11.8.so *.o
+  
+          cd $HOME/.millennium/ext/data/cache/lib
+          sudo rm -rf tmp
+          ls
+  
+          sudo mkdir -p $HOME/Documents/LibPython/
+          cd $HOME/.millennium/ext/data/cache/include/python3.11/
+          sudo mv * $HOME/Documents/LibPython/
+  
+          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/test/
+          sudo rm -rf $HOME/.millennium/ext/data/cache/share
+          sudo rm -rf $HOME/.millennium/ext/data/cache/include
+          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/__pycache__/
+          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/config-3.11-x86_64-linux-gnu/
+          sudo rm $HOME/.millennium/ext/data/cache/lib/libpython3.11.a
+  
+          sudo mv $HOME/.millennium/ext/data/cache/lib/libpython-3.11.8.so $HOME/.millennium/libpython-3.11.8.so
+  
+          $HOME/.millennium/ext/data/cache/bin/python3.11 --version
+          mkdir -p /home/runner/env/ext/data
+          sudo cp -r $HOME/.millennium/ext/data/cache /home/runner/env/ext/data
 
       - name: Upload Python 3.11.8 (32-bit) artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-3.11.8-32-bit
-          path: $HOME/build
+          path: $HOME/.millennium
