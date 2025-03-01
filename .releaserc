@@ -1,0 +1,15 @@
+{
+  "branches": [
+    "main"
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    {
+      "path": "@semantic-release/github",
+      "assets": [
+        "/home/runner/python-3.11.8-32-bit.tar.gz"
+      ]
+    }
+  ]
+}
