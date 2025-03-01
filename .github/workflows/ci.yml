@@ -70,10 +70,17 @@ jobs:
           sudo rm -rf $HOME/.millennium/ext/data/cache/include
           sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/__pycache__/
           sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/config-3.11-x86_64-linux-gnu/
+          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/tkinter/
+          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/ensurepip/
+          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/idlelib/
+          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/turtledemo/
+
           sudo rm $HOME/.millennium/ext/data/cache/lib/libpython3.11.a
   
           sudo mv $HOME/.millennium/ext/data/cache/lib/libpython-3.11.8.so $HOME/.millennium/libpython-3.11.8.so
   
+          strip $HOME/.millennium/ext/data/cache/bin/python3.11
+
           $HOME/.millennium/ext/data/cache/bin/python3.11 --version
           mkdir -p /home/runner/env/ext/data
           sudo cp -r $HOME/.millennium/ext/data/cache /home/runner/env/ext/data
