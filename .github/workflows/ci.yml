@@ -59,6 +59,8 @@ jobs:
           sudo CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$HOME/build --enable-optimizations
           sudo make -j$(nproc)
 
+          ls -R $HOME
+
       - name: Verify Python Installation
         run: |
           $HOME/build/bin/python3.11 --version
