@@ -1,6 +1,9 @@
 name: Python 3.11.8 32-bit Builder
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
