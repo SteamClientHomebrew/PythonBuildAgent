@@ -93,7 +93,7 @@ jobs:
           sudo mv $HOME/.millennium/ext/data/cache $HOME/.millennium/python-3.11.8-i686
           sudo rm -rd $HOME/.millennium/ext
 
-          $HOME/.millennium/ext/data/cache/bin/python3.11 --version
+          $HOME/.millennium/ext/data/cache/bin/python3.11.8-i686-bin --version
           mkdir -p /home/runner/env/ext/data
           sudo cp -r $HOME/.millennium/ext/data/cache $HOME/.millennium
 
