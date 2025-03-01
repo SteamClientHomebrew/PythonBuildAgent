@@ -66,7 +66,7 @@ jobs:
         with:
           name: python-3.11.8-32-bit-build
           include-hidden-files: true
-          path: $HOME/build
+          path: /home/runner/work/pybuilder/pybuilder/Python-3.11.8
 
       - name: Verify Python Installation
         run: |
