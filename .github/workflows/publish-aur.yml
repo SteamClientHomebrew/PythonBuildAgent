@@ -1,9 +1,10 @@
 name: Publish to AUR
 
 on:
-  push:
-    branches:
-      - main  # Adjust if necessary
+    push:
+    pull_request:
+    workflow_dispatch:
+  
 
 jobs:
   aur-push:
