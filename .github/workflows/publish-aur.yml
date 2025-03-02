@@ -13,30 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.AUR_SSH_PRIVATE_KEY }}" > ~/.ssh/id_aur
-          chmod 600 ~/.ssh/id_aur
-          ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-          export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_aur"
-
-      - name: Clone AUR repository
-        run: |
-          git clone ssh://aur@aur.archlinux.org/python-i686-bin.git aur-repo
-          cd aur-repo
-
-      - name: Copy necessary files
-        run: |
-          cp PKGBUILD .SRCINFO aur-repo/
-          cd aur-repo
-          git add PKGBUILD .SRCINFO
-
-      - name: Commit and push
-        run: |
-          cd aur-repo
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "github-actions@github.com"
-          git commit -m "Automated update: PKGBUILD and .SRCINFO" || echo "No changes to commit"
-          git push
+      - name: Publish AUR package
+        uses: KSXGitHub/github-actions-deploy-aur@master
+        with:
+          pkgname: python-i686-bin
+          pkgbuild: ./PKGBUILD
+          commit_username: GitHub Actions
+          commit_email: github-actions@github.com
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          commit_message: Update AUR package
+          ssh_keyscan_types: rsa,ecdsa,ed25519
