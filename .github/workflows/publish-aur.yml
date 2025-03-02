@@ -20,6 +20,8 @@ jobs:
 
       - name: Clone AUR repository
         run: |
+          ssh aur@aur.archlinux.org
+
           git clone ssh://aur@aur.archlinux.org/python-i686-bin.git aur-repo
           cd aur-repo
 
