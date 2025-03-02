@@ -74,8 +74,8 @@ jobs:
           sudo mv * $HOME/Documents/LibPython/
   
           sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/test/
-          sudo rm -rf $HOME/.millennium/ext/data/cache/share
-          sudo rm -rf $HOME/.millennium/ext/data/cache/include
+          # sudo rm -rf $HOME/.millennium/ext/data/cache/share
+          # sudo rm -rf $HOME/.millennium/ext/data/cache/include
           sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/__pycache__/
           sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/config-3.11-x86_64-linux-gnu/
           sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/tkinter/
