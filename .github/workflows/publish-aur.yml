@@ -1,0 +1,40 @@
+name: Publish to AUR
+
+on:
+  push:
+    branches:
+      - master 
+
+jobs:
+  aur-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AUR_SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -t ed25519 aur.archlinux.org >> ~/.ssh/known_hosts
+
+      - name: Clone AUR repository
+        run: |
+          git clone ssh://aur@aur.archlinux.org/python-i686-bin.git aur-repo
+          cd aur-repo
+
+      - name: Copy necessary files
+        run: |
+          cp PKGBUILD .SRCINFO aur-repo/
+          cd aur-repo
+          git add PKGBUILD .SRCINFO
+
+      - name: Commit and push
+        run: |
+          cd aur-repo
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          git commit -m "Automated update: PKGBUILD and .SRCINFO" || echo "No changes to commit"
+          git push
