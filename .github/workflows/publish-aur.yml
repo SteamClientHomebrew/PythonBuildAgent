@@ -20,7 +20,7 @@ jobs:
 
       - name: Clone AUR repository
         run: |
-          ssh aur@aur.archlinux.org
+          echo -e "\nHost aur.archlinux.org\n  IdentityFile ~/.ssh/id_ed25519\n  User aur" >> ~/.ssh/config
 
           git clone ssh://aur@aur.archlinux.org/python-i686-bin.git aur-repo
           cd aur-repo
