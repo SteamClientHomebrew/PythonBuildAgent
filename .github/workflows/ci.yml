@@ -96,7 +96,7 @@ jobs:
           sudo rm $HOME/.millennium/ext/data/cache/bin/pip3.11
           sudo rm $HOME/.millennium/ext/data/cache/bin/2to3-3.11
 
-          sudo mv $HOME/.millennium/ext/data/cache/bin/python3.11 $HOME/.millennium/ext/data/cache/bin/python3.11.8-i686-bin
+          sudo mv $HOME/.millennium/ext/data/cache/bin/python3.11 $HOME/.millennium/ext/data/cache/bin/python3.11
 
           sudo mv $HOME/.millennium/ext/data/cache/* $HOME/.millennium/
           sudo rm -rd $HOME/.millennium/ext
