@@ -94,9 +94,6 @@ jobs:
           sudo rm /tmp/python-build/bin/pip3.11
           sudo rm /tmp/python-build/bin/2to3-3.11
 
-          # Archive the Python 3.11.8 (32-bit) build
-          # sudo tar -czf python-3.11.8-32-bit.tar.gz -C "/tmp/python-build" .
-
       - name: Upload Python 3.11.8 (32-bit) artifact
         uses: actions/upload-artifact@v4
         with:
