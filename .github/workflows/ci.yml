@@ -47,69 +47,62 @@ jobs:
 
       - name: Download Python 3.11.8 source
         run: |
+          echo "Downloading Python 3.11.8 source to $(pwd)"
           wget https://www.python.org/ftp/python/3.11.8/Python-3.11.8.tgz
           tar -xf Python-3.11.8.tgz
 
       - name: Configure and build Python 3.11.8 (32-bit)
         run: |
-          mkdir -p $HOME/.millennium/ext/data/cache
+          mkdir -p /tmp/python-build
           cd Python-3.11.8
-          sudo CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$HOME/.millennium/ext/data/cache --enable-optimizations
+          sudo CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=/tmp/python-build --enable-optimizations
           sudo make -j$(nproc)
           sudo make altinstall
   
       - name: Setup installation
         run: |
-          sudo mkdir -p $HOME/.millennium/ext/data/cache/lib/tmp
-          cd $HOME/.millennium/ext/data/cache/lib/tmp
+
+          sudo mkdir -p /tmp/python-build/lib/tmp
+          cd /tmp/python-build/lib/tmp
           sudo ar -x ../libpython3.11.a
           sudo gcc -m32 -shared -o ../libpython-3.11.8.so *.o
   
-          cd $HOME/.millennium/ext/data/cache/lib
+          cd /tmp/python-build/lib
           sudo rm -rf tmp
           ls
   
-          sudo mkdir -p $HOME/Documents/LibPython/
-          cd $HOME/.millennium/ext/data/cache/include/python3.11/
-          sudo mv * $HOME/Documents/LibPython/
-  
-          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/test/
-          # sudo rm -rf $HOME/.millennium/ext/data/cache/share
-          # sudo rm -rf $HOME/.millennium/ext/data/cache/include
-          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/__pycache__/
-          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/config-3.11-x86_64-linux-gnu/
-          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/tkinter/
-          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/ensurepip/
-          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/idlelib/
-          sudo rm -rf $HOME/.millennium/ext/data/cache/lib/python3.11/turtledemo/
+          # Remove unimportant files that take up lots of space
+          sudo rm -rf /tmp/python-build/lib/python3.11/test/
+          sudo rm -rf /tmp/python-build/lib/python3.11/__pycache__/
+          sudo rm -rf /tmp/python-build/lib/python3.11/config-3.11-x86_64-linux-gnu/
+          sudo rm -rf /tmp/python-build/lib/python3.11/tkinter/
+          sudo rm -rf /tmp/python-build/lib/python3.11/ensurepip/
+          sudo rm -rf /tmp/python-build/lib/python3.11/idlelib/
+          sudo rm -rf /tmp/python-build/lib/python3.11/turtledemo/
 
-          sudo rm $HOME/.millennium/ext/data/cache/lib/libpython3.11.a
-  
-          sudo mkdir -p $HOME/.millennium/lib
+          # Remove the static library as we've built a shared library
+          sudo rm /tmp/python-build/lib/libpython3.11.a
 
-          sudo strip $HOME/.millennium/ext/data/cache/bin/python3.11
-          sudo strip $HOME/.millennium/ext/data/cache/lib/libpython-3.11.8.so
+          # Strip the build binaries to reduce size
+          sudo strip /tmp/python-build/bin/python3.11
+          sudo strip /tmp/python-build/lib/libpython-3.11.8.so
 
-          sudo rm $HOME/.millennium/ext/data/cache/bin/python3.11-config
-          sudo rm $HOME/.millennium/ext/data/cache/bin/idle3.11
-          sudo rm $HOME/.millennium/ext/data/cache/bin/pydoc3.11
-          sudo rm $HOME/.millennium/ext/data/cache/bin/pip3.11
-          sudo rm $HOME/.millennium/ext/data/cache/bin/2to3-3.11
+          # Remove extra bin files that are not needed
+          sudo rm /tmp/python-build/bin/python3.11-config
+          sudo rm /tmp/python-build/bin/idle3.11
+          sudo rm /tmp/python-build/bin/pydoc3.11
+          sudo rm /tmp/python-build/bin/pip3.11
+          sudo rm /tmp/python-build/bin/2to3-3.11
 
-          sudo mv $HOME/.millennium/ext/data/cache/bin/python3.11 $HOME/.millennium/ext/data/cache/bin/python3.11
-
-          sudo mv $HOME/.millennium/ext/data/cache/* $HOME/.millennium/
-          sudo rm -rd $HOME/.millennium/ext
-
-          cd $HOME/
-          tar -czf python-3.11.8-32-bit.tar.gz -C "$HOME/.millennium" .
+          # Archive the Python 3.11.8 (32-bit) build
+          tar -czf python-3.11.8-32-bit.tar.gz -C "/tmp/python-build" .
 
       - name: Upload Python 3.11.8 (32-bit) artifact
         uses: actions/upload-artifact@v4
         with:
           include-hidden-files: true
           name: python-3.11.8-32-bit
-          path: /home/runner/.millennium/
+          path: /tmp/python-build
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
