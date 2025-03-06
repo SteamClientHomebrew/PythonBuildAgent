@@ -76,7 +76,6 @@ jobs:
           sudo rm -rf /tmp/python-build/lib/python3.11/__pycache__/
           sudo rm -rf /tmp/python-build/lib/python3.11/config-3.11-x86_64-linux-gnu/
           sudo rm -rf /tmp/python-build/lib/python3.11/tkinter/
-          sudo rm -rf /tmp/python-build/lib/python3.11/ensurepip/
           sudo rm -rf /tmp/python-build/lib/python3.11/idlelib/
           sudo rm -rf /tmp/python-build/lib/python3.11/turtledemo/
 
