@@ -1,6 +1,7 @@
 name: Build ARM64 Python on macOS
 
-on: [push, pull_request]
+on: 
+  workflow_dispatch
 
 jobs:
   build:
@@ -26,4 +27,5 @@ jobs:
       - name: Verify Build
         run: |
           $HOME/python-arm64/bin/python3 --version
+          $HOME/python-arm64/bin/python3 -c "import platform; print(platform.machine())"
           $HOME/python-arm64/bin/python3 -c "import platform; print(platform.architecture())"
