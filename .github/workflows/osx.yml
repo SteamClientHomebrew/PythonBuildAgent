@@ -20,19 +20,50 @@ jobs:
       - name: Build Python 3.11.8 for ARM64
         run: |
           cd Python-3.11.8
-          arch -arm64 ./configure --prefix=$HOME/python-arm64 --enable-optimizations
+          arch -arm64 ./configure --prefix=/tmp/python-build --enable-optimizations
           arch -arm64 make -j$(sysctl -n hw.ncpu)
           arch -arm64 make install
 
+          sudo mkdir -p /tmp/python-build/lib/tmp
+          cd /tmp/python-build/lib/tmp
+          sudo ar -x ../libpython3.11.a
+          sudo gcc -m32 -shared -o ../libpython-3.11.8.dylib *.o
+          
+          cd /tmp/python-build/lib
+          sudo rm -rf tmp
+          ls
+
+          # Remove unimportant files that take up lots of space
+          sudo rm -rf /tmp/python-build/lib/python3.11/test/
+          sudo rm -rf /tmp/python-build/lib/python3.11/__pycache__/
+          sudo rm -rf /tmp/python-build/lib/python3.11/config-3.11-darwin/
+          sudo rm -rf /tmp/python-build/lib/python3.11/tkinter/
+          sudo rm -rf /tmp/python-build/lib/python3.11/idlelib/
+          sudo rm -rf /tmp/python-build/lib/python3.11/turtledemo/
+
+          # Remove the static library as we've built a shared library
+          sudo rm /tmp/python-build/lib/libpython3.11.a
+
+          # Strip the build binaries to reduce size
+          sudo strip /tmp/python-build/bin/python3.11
+          sudo strip /tmp/python-build/lib/libpython-3.11.8.dylib
+
+          # Remove extra bin files that are not needed
+          sudo rm /tmp/python-build/bin/python3.11-config
+          sudo rm /tmp/python-build/bin/idle3.11
+          sudo rm /tmp/python-build/bin/pydoc3.11
+          sudo rm /tmp/python-build/bin/pip3.11
+          sudo rm /tmp/python-build/bin/2to3-3.11
+
       - name: Verify Build
         run: |
-          $HOME/python-arm64/bin/python3 --version
-          $HOME/python-arm64/bin/python3 -c "import platform; print(platform.machine())"
+          /tmp/python-build/bin/python3 --version
+          /tmp/python-build/bin/python3 -c "import platform; print(platform.machine())"
           file $HOME/python-arm64/bin/python3
 
       - name: Upload Python Artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-arm64-macos
-          path: /Users/runner/python-arm64/
+          path: /tmp/python-build/
           include-hidden-files: 'true'
