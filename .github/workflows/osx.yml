@@ -34,4 +34,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: python-arm64-macos
-          path: $HOME/python-arm64
+          path: $HOME/python-arm64/
+          include-hidden-files: 'true'
