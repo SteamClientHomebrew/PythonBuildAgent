@@ -1,0 +1,29 @@
+name: Build ARM64 Python on macOS
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Set up Rosetta 2
+        run: |
+          softwareupdate --install-rosetta --agree-to-license || true
+
+      - name: Download Python 3.11.8 Source
+        run: |
+          curl -O https://www.python.org/ftp/python/3.11.8/Python-3.11.8.tgz
+          tar -xf Python-3.11.8.tgz
+          cd Python-3.11.8
+
+      - name: Build Python 3.11.8 for ARM64
+        run: |
+          cd Python-3.11.8
+          arch -arm64 ./configure --prefix=$HOME/python-arm64 --enable-optimizations
+          arch -arm64 make -j$(sysctl -n hw.ncpu)
+          arch -arm64 make install
+
+      - name: Verify Build
+        run: |
+          $HOME/python-arm64/bin/python3 --version
+          $HOME/python-arm64/bin/python3 -c "import platform; print(platform.architecture())"
