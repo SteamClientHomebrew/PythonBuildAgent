@@ -25,11 +25,3 @@ msbuild PCBuild/pcbuild.sln /p:Configuration=Release /p:Platform=Win32 /p:Runtim
 msbuild PCBuild/pcbuild.sln /p:Configuration=Debug /p:Platform=Win32 /p:RuntimeLibrary=MT
 # verify python is installed
 PCbuild/win32/python.exe --version
-
-
-mkdir D:/a/Millennium/Millennium/build/python
-# Move the python311.dll binary to the release directory
-Copy-Item D:/a/Millennium/Millennium/Python-3.11.8/PCbuild/win32/python311.dll D:/a/Millennium/Millennium/build/python/python311.dll
-Copy-Item D:/a/Millennium/Millennium/Python-3.11.8/PCbuild/win32/python311_d.dll D:/a/Millennium/Millennium/build/python/python311_d.dll
-Copy-Item D:/a/Millennium/Millennium/Python-3.11.8/PCbuild/win32/python311.lib D:/a/Millennium/Millennium/build/python/python311.lib
-Copy-Item D:/a/Millennium/Millennium/Python-3.11.8/PCbuild/win32/python311_d.lib D:/a/Millennium/Millennium/build/python/python311_d.lib
