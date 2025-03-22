@@ -15,6 +15,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
       - name: (Python) Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
 
