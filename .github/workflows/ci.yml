@@ -19,7 +19,7 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: (Python) Download 3.11.8 win32 source
-        run: . scripts\ci\win32\build-python.ps1
+        run: . scripts\build.ps1
 
   build-linux:
     permissions:
@@ -28,10 +28,6 @@ jobs:
       pull-requests: write
 
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        python-version: [3.11.8]
 
     steps:
       - name: Checkout repository
