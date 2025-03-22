@@ -6,7 +6,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-windows:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    runs-on: windows-latest
+
+    steps:
+      - name: (Python) Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: (Python) Download 3.11.8 win32 source
+        run: . scripts\ci\win32\build-python.ps1
+
+  build-linux:
     permissions:
       contents: write
       issues: write
@@ -35,8 +50,6 @@ jobs:
             libssl-dev:i386 \
             libreadline-dev:i386 \
             libffi-dev:i386 \
-            wget \
-            curl \
             libbz2-dev:i386 \
             libsqlite3-dev:i386 \
             liblzma-dev:i386 \
