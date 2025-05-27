@@ -77,7 +77,7 @@ jobs:
           sudo CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=/tmp/python-build --enable-optimizations
           sudo make -j$(nproc)
           sudo make altinstall
-  
+
       - name: Setup installation
         run: |
 
@@ -85,11 +85,11 @@ jobs:
           cd /tmp/python-build/lib/tmp
           sudo ar -x ../libpython3.11.a
           sudo gcc -m32 -shared -o ../libpython-3.11.8.so *.o
-  
+
           cd /tmp/python-build/lib
           sudo rm -rf tmp
           ls
-  
+
           # Remove unimportant files that take up lots of space
           sudo rm -rf /tmp/python-build/lib/python3.11/test/
           sudo rm -rf /tmp/python-build/lib/python3.11/__pycache__/
@@ -122,6 +122,31 @@ jobs:
           name: python-linux
           path: /tmp/python-build
 
+  release:
+    needs: [build-windows, build-linux]
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: python-windows
+          path: ./artifacts/windows
+
+      - name: Download Linux Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: python-linux
+          path: ./artifacts/linux
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -129,12 +154,10 @@ jobs:
 
       - name: Install Semantic Release
         run: npm install --save-dev semantic-release @semantic-release/github @semantic-release/exec @semantic-release/changelog @semantic-release/git
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-        

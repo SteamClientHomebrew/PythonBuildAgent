@@ -8,7 +8,7 @@
     {
       "path": "@semantic-release/github",
       "assets": [
-        "/tmp/python-3.11.8-32-bit.tar.gz"
+        "./artifacts/*"
       ]
     }
   ]
