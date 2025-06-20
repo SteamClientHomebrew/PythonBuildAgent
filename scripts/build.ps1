@@ -26,9 +26,6 @@ msbuild PCBuild/pcbuild.sln /p:Configuration=Debug /p:Platform=Win32 /p:RuntimeL
 # verify python is installed
 PCbuild/win32/python.exe --version
 
-Set-Location ./PCBuild
-Get-ChildItem -Recurse 
-
 New-Item -ItemType Directory -Path "./python-build" -Force
 
 # copy python 3.11.8 to python-build
@@ -38,4 +35,6 @@ Copy-Item -Path "./PCbuild/win32/python311.lib" -Destination "./python-build/pyt
 Copy-Item -Path "./PCbuild/win32/python311_d.dll" -Destination "./python-build/python311_d.dll"
 Copy-Item -Path "./PCbuild/win32/python311_d.lib" -Destination "./python-build/python311_d.lib"
 
+# List the contents of the python-build directory
+Get-ChildItem -Path "./python-build"
 
