@@ -8,7 +8,8 @@
     {
       "path": "@semantic-release/github",
       "assets": [
-        "./artifacts/*"
+        "./artifacts/python-linux.zip",
+        "./artifacts/python-windows.zip"
       ]
     }
   ]
