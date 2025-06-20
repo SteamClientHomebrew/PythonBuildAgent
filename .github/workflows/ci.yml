@@ -149,8 +149,8 @@ jobs:
 
       - name: Zip artifacts
         run: |
-          zip -r ./artifacts/python-windows.zip ./artifacts/windows/python-windows
-          zip -r ./artifacts/python-linux.zip ./artifacts/linux/python-linux
+          zip -r ./artifacts/python-windows.zip ./artifacts/windows
+          zip -r ./artifacts/python-linux.zip ./artifacts/linux
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
