@@ -28,6 +28,8 @@ PCbuild/win32/python.exe --version
 
 New-Item -ItemType Directory -Path "./python-build" -Force
 
+Set-Location ..
+
 dlltool --input-def ./exports.def --output-delaylib "./python-build/python311.lib" --dllname "./PCbuild/win32/python311.dll"
 dlltool --input-def ./exports.def --output-delaylib "./python-build/python311_d.lib" --dllname "./PCbuild/win32/python311_d.dll"
 
