@@ -30,9 +30,11 @@ New-Item -ItemType Directory -Path "./python-build" -Force
 
 Write-Host "Generating delay libraries for Python 3.11.8..."
 
-cmd /c "..\scripts\dlltool.exe --version"
-cmd /c "..\scripts\dlltool.exe --input-def ..\exports.def --output-delaylib ./python-build/python311.lib --dllname ./PCbuild/win32/python311.dll"
-cmd /c "..\scripts\dlltool.exe --input-def ..\exports.def --output-delaylib ./python-build/python311_d.lib --dllname ./PCbuild/win32/python311_d.dll"
+Get-Command dlltool
+
+dlltool --version
+dlltool --input-def ../exports.def --output-delaylib "./python-build/python311.lib" --dllname "./PCbuild/win32/python311.dll"
+dlltool --input-def ../exports.def --output-delaylib "./python-build/python311_d.lib" --dllname "./PCbuild/win32/python311_d.dll"
 
 Write-Host "Done!"
 
