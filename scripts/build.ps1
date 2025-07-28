@@ -1,4 +1,4 @@
-C:\mingw64\bin\dlltool.exe --version
+C:\mingw32\bin\dlltool.exe --version
 
 # download python 3.11.8 source code
 curl -o Python-3.11.8.tgz https://www.python.org/ftp/python/3.11.8/Python-3.11.8.tgz
@@ -34,8 +34,8 @@ Write-Host "Generating delay libraries for Python 3.11.8..."
 
 Get-Command dlltool
 
-C:\mingw64\bin\dlltool.exe --input-def ../exports.def --output-delaylib "./python-build/python311.lib" --dllname "./PCbuild/win32/python311.dll"
-C:\mingw64\bin\dlltool.exe --input-def ../exports.def --output-delaylib "./python-build/python311_d.lib" --dllname "./PCbuild/win32/python311_d.dll"
+C:\mingw32\bin\dlltool.exe --input-def ../exports.def --output-delaylib "./python-build/python311.lib" --dllname "./PCbuild/win32/python311.dll"
+C:\mingw32\bin\dlltool.exe --input-def ../exports.def --output-delaylib "./python-build/python311_d.lib" --dllname "./PCbuild/win32/python311_d.dll"
 
 Write-Host "Done!"
 
