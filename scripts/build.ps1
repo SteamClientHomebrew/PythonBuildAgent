@@ -28,10 +28,8 @@ PCbuild/win32/python.exe --version
 
 New-Item -ItemType Directory -Path "./python-build" -Force
 
-Set-Location ..
-
-dlltool --input-def ./exports.def --output-delaylib "./python-build/python311.lib" --dllname "./PCbuild/win32/python311.dll"
-dlltool --input-def ./exports.def --output-delaylib "./python-build/python311_d.lib" --dllname "./PCbuild/win32/python311_d.dll"
+dlltool --input-def ../exports.def --output-delaylib "./python-build/python311.lib" --dllname "./PCbuild/win32/python311.dll"
+dlltool --input-def ../exports.def --output-delaylib "./python-build/python311_d.lib" --dllname "./PCbuild/win32/python311_d.dll"
 
 # copy python 3.11.8 to python-build
 Copy-Item -Path "./PCbuild/win32/python311.dll" -Destination "./python-build/python311.dll"
