@@ -28,11 +28,12 @@ PCbuild/win32/python.exe --version
 
 New-Item -ItemType Directory -Path "./python-build" -Force
 
+dlltool --input-def ./exports.def --output-delaylib "./python-build/python311.lib" --dllname "./PCbuild/win32/python311.dll"
+dlltool --input-def ./exports.def --output-delaylib "./python-build/python311_d.lib" --dllname "./PCbuild/win32/python311_d.dll"
+
 # copy python 3.11.8 to python-build
 Copy-Item -Path "./PCbuild/win32/python311.dll" -Destination "./python-build/python311.dll"
-Copy-Item -Path "./PCbuild/win32/python311.lib" -Destination "./python-build/python311.lib"
 Copy-Item -Path "./PCbuild/win32/python311_d.dll" -Destination "./python-build/python311_d.dll"
-Copy-Item -Path "./PCbuild/win32/python311_d.lib" -Destination "./python-build/python311_d.lib"
 
 # List the contents of the python-build directory
 Get-ChildItem -Path "./python-build"
