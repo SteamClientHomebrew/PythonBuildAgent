@@ -1,0 +1,1 @@
+dlltool.exe is a component of the MinGW32 toolchain and is provided solely for convenience; all rights, ownership, and licensing remain with the original authors and the MinGW project. All hashes match.
