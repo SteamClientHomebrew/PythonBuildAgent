@@ -16,7 +16,7 @@ jobs:
       - name: Publish AUR package
         uses: KSXGitHub/github-actions-deploy-aur@master
         with:
-          pkgname: python-i686-bin
+          pkgname: lib32-python311-bin
           pkgbuild: ./PKGBUILD
           commit_username: GitHub Actions
           commit_email: github-actions@github.com
