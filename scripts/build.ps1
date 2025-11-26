@@ -23,8 +23,8 @@ $modifiedContent | Set-Content $vcxprojPath
 # get python external libs before build
 ./PCbuild/get_externals.bat
 # build python 3.11.8 as win32 and release
-msbuild PCBuild/pcbuild.sln /p:Configuration=Release /p:Platform=Win32 /p:RuntimeLibrary=MT
-msbuild PCBuild/pcbuild.sln /p:Configuration=Debug /p:Platform=Win32 /p:RuntimeLibrary=MT
+msbuild PCBuild/pcbuild.sln /p:Configuration=Release /p:RuntimeLibrary=MT
+msbuild PCBuild/pcbuild.sln /p:Configuration=Debug /p:RuntimeLibrary=MT
 # verify python is installed
 PCbuild/win32/python.exe --version
 
